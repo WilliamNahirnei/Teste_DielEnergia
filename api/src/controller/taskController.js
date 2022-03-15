@@ -28,5 +28,27 @@ module.exports = app => {
         }
     }
 
-    return { save, update }
+    const getAllTask = async (request, response) => {
+        try {
+            const result = await taskService.getAllTask(request, response)
+            return response.status(200).json({
+                'data': result,
+            }).send()
+        } catch (error) {
+            return response.status(500).send(`INTERNAL SERVER ERROR: ${error}`)
+        }
+    }
+
+    const getTaskById = async (request, response) => {
+        try {
+            const result = await taskService.getTaskById(request, response)
+            return response.status(200).json({
+                'data': result,
+            }).send()
+        } catch (error) {
+            return response.status(500).send(`INTERNAL SERVER ERROR: ${error}`)
+        }
+    }
+
+    return { save, update, getAllTask, getTaskById}
 }

@@ -8,6 +8,13 @@ const prepareSave = async (request) => {
         "statusTask": "SCHEDULED"
     }
 }
+
+const prepareGetTaskById = async (request) => {
+    const queryParams = {...request.query}
+    return queryParams.idTask
+}
+
 module.exports = {
-    prepareSave
+    prepareSave,
+    prepareGetTaskById
 }

@@ -10,6 +10,31 @@ const save = async (request, response) => {
     return task
 }
 
+const getAllTask = async (request, response) => {
+    const taskResultsDatabase = await taskRepository.getAllTask()
+    const tasklist = []
+    tasklist = taskResultsDatabase.map( (row)=>{
+        return new Task(row.idTask, row.titleTask, row.descriptionTask, row.startDateTask, row.endDateTask, row.statusTask)
+    })
+    return tasklist
+}
+
+const getTaskById = async (request, response) => {
+    const preparedData = await taskPrepare.prepareGetTaskById(request)
+    const taskResultsDatabase = await taskRepository.getTaskById(preparedData)
+    return new Task(
+        taskResultsDatabase.idTask,
+        taskResultsDatabase.titleTask, 
+        taskResultsDatabase.descriptionTask, 
+        taskResultsDatabase.startDateTask, 
+        taskResultsDatabase.endDateTask, 
+        taskResultsDatabase.statusTask
+    )
+
+}
+
 module.exports = {
-    save
+    save,
+    getAllTask,
+    getTaskById
 }
