@@ -22,7 +22,16 @@ module.exports = app => {
 
     const update = async (request, response) => {
         try {
-
+            const errors = validationResult(request)
+            if (!errors.isEmpty()) {
+                response.status(400).json({ errors: errors.array() })
+                response.send();
+            }
+            const result = await taskService.update(request, response)
+            return response.status(200).json({
+                'data': result,
+                'message': "success update task"
+            }).send()
         } catch (error) {
             return response.status(500).send(`INTERNAL SERVER ERROR: ${error}`)
         }

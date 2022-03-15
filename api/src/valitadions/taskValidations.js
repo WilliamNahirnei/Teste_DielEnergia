@@ -20,4 +20,19 @@ const saveValidations = [
     .notEmpty().withMessage("A data de fim da task é obrigatório")    
 ]
 
-module.exports = { saveValidations }
+const updateValidations = [
+    check('idTaks')
+    .notEmpty().withMessage("O id da task é obrigatório"),
+
+    check('titleTask')
+    .isLength({ min: 4 })
+    .withMessage('O titulo da tarefa deve ter no minimo 5 caracteres')
+    .isLength({ max: 50 })
+    .withMessage('O titulo da tarefa deve ter no máximo 50 caracteres'),
+
+    check('descriptionTask')
+    .isLength({ max: 150 })
+    .withMessage('O titulo da tarefa deve ter no máximo 150 caracteres')
+]
+
+module.exports = { saveValidations, updateValidations }

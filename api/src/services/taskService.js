@@ -10,6 +10,20 @@ const save = async (request, response) => {
     return task
 }
 
+const update = async (request, response) => {
+    const preparedData = await taskPrepare.prepareUpdate(request)
+    const idTask = await taskRepository.update(preparedData)
+    const task = new Task(
+        preparedData,idTask,
+        preparedData.newData.titleTask,
+        preparedData.newData.descriptionTask, 
+        preparedData.newData.startDateTask,
+        preparedData.newData.endDateTask,
+        preparedData.newData.statusTask,
+        preparedData.newData.statusTask)
+    return task
+}
+
 const getAllTask = async (request, response) => {
     const taskResultsDatabase = await taskRepository.getAllTask()
     const tasklist = []

@@ -5,6 +5,13 @@ const save = async (params) => {
     return databaseResponse[0]
 }
 
+const update = async (params) => {
+    const databaseResponse = await db('task')
+    .where(params.idTask)
+    .update(params.newData)
+    return databaseResponse[0]
+}
+
 const getAllTask = async () => {
     const databaseResponse = await db.select().table('task')
     return databaseResponse
@@ -18,5 +25,6 @@ const getTaskById = async (idTask) => {
 module.exports = {
     save,
     getAllTask,
-    getTaskById
+    getTaskById,
+    update
 }
