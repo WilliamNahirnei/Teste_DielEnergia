@@ -7,9 +7,16 @@ const save = async (params) => {
 
 const update = async (params) => {
     const databaseResponse = await db('task')
-    .where(params.idTask)
+    .where('idTask', params.idTask)
     .update(params.newData)
     return databaseResponse[0]
+}
+
+const destroy = async (idTask) => {
+    const databaseResponse = await db('task')
+    .where('idTask', idTask)
+    .del()
+    return databaseResponse
 }
 
 const getAllTask = async () => {
@@ -24,7 +31,8 @@ const getTaskById = async (idTask) => {
 
 module.exports = {
     save,
+    update,
+    destroy,
     getAllTask,
     getTaskById,
-    update
 }

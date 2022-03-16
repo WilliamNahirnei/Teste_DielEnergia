@@ -11,17 +11,33 @@ const save = async (request, response) => {
 }
 
 const update = async (request, response) => {
+
+    if (! await validateToUpdate(request, response)) {
+        return false
+    } 
+
     const preparedData = await taskPrepare.prepareUpdate(request)
-    const idTask = await taskRepository.update(preparedData)
+    const result = await taskRepository.update(preparedData)
     const task = new Task(
-        preparedData,idTask,
+        preparedData.idTask,
         preparedData.newData.titleTask,
         preparedData.newData.descriptionTask, 
         preparedData.newData.startDateTask,
         preparedData.newData.endDateTask,
         preparedData.newData.statusTask,
-        preparedData.newData.statusTask)
+        preparedData.newData.statusTask
+    )
     return task
+}
+
+const destroy = async (request, response) => {
+
+    if (! await validateToDestroy(request, response)) {
+        return false
+    } 
+
+    const preparedData = await taskPrepare.prepareDestroy(request)
+    return await taskRepository.destroy(preparedData)
 }
 
 const getAllTask = async (request, response) => {
@@ -34,21 +50,55 @@ const getAllTask = async (request, response) => {
 }
 
 const getTaskById = async (request, response) => {
-    const preparedData = await taskPrepare.prepareGetTaskById(request)
-    const taskResultsDatabase = await taskRepository.getTaskById(preparedData)
-    return new Task(
-        taskResultsDatabase.idTask,
-        taskResultsDatabase.titleTask, 
-        taskResultsDatabase.descriptionTask, 
-        taskResultsDatabase.startDateTask, 
-        taskResultsDatabase.endDateTask, 
-        taskResultsDatabase.statusTask
-    )
 
+    const preparedData = await taskPrepare.prepareGetTaskById(request)
+
+    const taskResultsDatabase = await taskRepository.getTaskById(preparedData)
+    if(!taskResultsDatabase){
+        return null
+    } else {
+        return new Task(
+            taskResultsDatabase.idTask,
+            taskResultsDatabase.titleTask, 
+            taskResultsDatabase.descriptionTask, 
+            taskResultsDatabase.startDateTask, 
+            taskResultsDatabase.endDateTask, 
+            taskResultsDatabase.statusTask
+        )
+    }
+
+}
+
+const validateToUpdate = async (request, response) => {
+    const existTask = await validateExistTask(request, response)
+
+    return existTask
+}
+
+const validateExistTask = async (request, response) => {
+
+    const task = await getTaskById(request, response)
+    if (!task) {
+        response.status(404).json({
+            messages: ['Task not found']
+        })
+        return false
+    } else {
+        return true
+    }
+
+}
+
+const validateToDestroy = async (request, response) => {
+    const existTask = await validateExistTask(request, response)
+
+    return existTask
 }
 
 module.exports = {
     save,
+    update,
+    destroy,
     getAllTask,
     getTaskById
 }

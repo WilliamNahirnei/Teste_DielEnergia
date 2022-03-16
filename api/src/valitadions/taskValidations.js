@@ -1,4 +1,4 @@
-const { body, validationResult, check } = require('express-validator')
+const { query, body, validationResult, check } = require('express-validator')
 
 
 const saveValidations = [
@@ -21,7 +21,7 @@ const saveValidations = [
 ]
 
 const updateValidations = [
-    check('idTaks')
+    query('idTask')
     .notEmpty().withMessage("O id da task é obrigatório"),
 
     check('titleTask')
@@ -35,4 +35,9 @@ const updateValidations = [
     .withMessage('O titulo da tarefa deve ter no máximo 150 caracteres')
 ]
 
-module.exports = { saveValidations, updateValidations }
+const destroyValidations = [
+    query('idTask')
+    .notEmpty().withMessage("O id da task é obrigatório"),
+]
+
+module.exports = { saveValidations, updateValidations, destroyValidations }

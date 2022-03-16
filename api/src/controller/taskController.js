@@ -28,9 +28,34 @@ module.exports = app => {
                 response.send();
             }
             const result = await taskService.update(request, response)
+            if (!result) {
+                return response.send()
+            }
+
             return response.status(200).json({
                 'data': result,
                 'message': "success update task"
+            }).send()
+        } catch (error) {
+            return response.status(500).send(`INTERNAL SERVER ERROR: ${error}`)
+        }
+    }
+
+    const destroy = async (request, response) => {
+        try {
+            const errors = validationResult(request)
+            if (!errors.isEmpty()) {
+                response.status(400).json({ errors: errors.array() })
+                response.send();
+            }
+            const result = await taskService.destroy(request, response)
+
+            if (!result) {
+                return response.send()
+            }
+
+            return response.status(200).json({
+                'message': "success delete task"
             }).send()
         } catch (error) {
             return response.status(500).send(`INTERNAL SERVER ERROR: ${error}`)
@@ -59,5 +84,5 @@ module.exports = app => {
         }
     }
 
-    return { save, update, getAllTask, getTaskById}
+    return { save, update, destroy, getAllTask, getTaskById}
 }

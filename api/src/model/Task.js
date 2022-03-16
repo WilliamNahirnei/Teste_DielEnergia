@@ -1,6 +1,6 @@
 class Task {
-    constructor(idtask, titletask, descriptionTask, startDatetask, endDateTask, status){
-        this.idTask = idtask
+    constructor(idTask, titletask, descriptionTask, startDatetask, endDateTask, status){
+        this.idTask = idTask
         this.titletask = titletask
         this.descriptionTask = descriptionTask
         this.startDatetask = startDatetask
