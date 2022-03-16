@@ -1,0 +1,21 @@
+<template>
+  <div id="taskList">
+    <TaskForm />
+  </div>
+</template>
+
+<script>
+
+import TaskForm from './TaskForm.vue'
+
+export default {
+  name: 'TaskList',
+  components: {
+      TaskForm
+  }
+}
+</script>
+
+<style>
+
+</style>
