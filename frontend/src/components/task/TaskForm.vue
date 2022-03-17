@@ -12,7 +12,7 @@
                 id="titleTask"
                 class="mb-2 mr-sm-2 mb-sm-0"
                 placeholder="Titulo"
-                v-model="titleTask"
+                v-bind="titleTask"
                 size="sm"
               ></b-form-input>
             </b-col>
@@ -22,7 +22,7 @@
               <b-form-textarea 
                 id="descriptionTask" 
                 size="sm"
-                :value="descriptionTask"  
+                v-bind="descriptionTask"  
               ></b-form-textarea>
             </b-col>
 
@@ -31,7 +31,7 @@
                 <label class="sr-only" for="startDateTask">Data Fim</label>
                 <b-form-datepicker 
                   id="startDateTask" 
-                  :value="startDateTask" 
+                  v-bind="startDateTask" 
                   class="mb-2"
                   size="sm"
                 ></b-form-datepicker>
@@ -39,8 +39,8 @@
               <b-row>
                 <b-form-timepicker 
                   id="startHour" 
-                  v-model="startHourTask" 
-                  locale="en" 
+                  v-bind="startHourTask" 
+                  locale="pt-BR" 
                   size="sm"
                 >
                 </b-form-timepicker>
@@ -52,7 +52,7 @@
                 <label class="sr-only" for="endDateTask">Data Fim</label>
                 <b-form-datepicker 
                   id="endDateTask" 
-                  :value="endDateTask" 
+                  v-bind="endDateTask" 
                   class="mb-2"
                   size="sm"
                 ></b-form-datepicker>
@@ -60,8 +60,8 @@
               <b-row>
                 <b-form-timepicker 
                   id="endHour" 
-                  :value="endHourTask" 
-                  locale="en" 
+                  v-bind="endHourTask" 
+                  locale="pt-BR" 
                   size="sm"
                 ></b-form-timepicker>
               </b-row>
@@ -73,7 +73,7 @@
               <label class="sr-only" for="statusTask">Status</label>
               <b-form-select 
                 id="statusTask" 
-                :value="selectedStatusTask" 
+                v-bind="selectedStatusTask" 
                 :options="statusTaskOptions"
                 size="sm" 
                 class="mt-3"
@@ -92,6 +92,7 @@
 
 import {
   getTaskById,
+  storeTask,
   updateTask
 } from '../../service/task-services/task-service'
 
@@ -132,7 +133,7 @@ export default {
       const data = await getTaskById(idTask)
       console.log(data)
       const startDateHourTask = data.startDateTask.split("T")
-            const endDateHourTask = data.startDateTask.split("T")
+      const endDateHourTask = data.startDateTask.split("T")
 
       this.titleTask = data.titleTask,
       this.descriptionTask = data.descriptionTask
@@ -151,8 +152,12 @@ export default {
         this.storeTask()
       }
     },
-    storeTask() {
-
+    async storeTask() {
+      const taskData = await this.prepareTaskData()
+      console.log(taskData)
+      const response = await storeTask(this.idTask, taskData)
+      console.log(response)
+      //router.push({ name: 'user', params: { username: 'erina' } })
     },
     async updateTask() {
       const taskData = await this.prepareTaskData()

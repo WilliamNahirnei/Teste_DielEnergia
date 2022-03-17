@@ -1,14 +1,7 @@
 <template>
-<div>
-  <b-navbar toggleable="lg" type="dark" variant="info">
-    <b-navbar-brand>
-        <router-link to="/">Home</router-link> |
-    </b-navbar-brand>
-    <b-navbar-brand>
-        <router-link to="Task-List">Tarefas</router-link> |
-    </b-navbar-brand>
-  </b-navbar>
-</div>
+  <div>
+    <span>TESTEHOME</span>
+  </div>
 </template>
 
 <script>

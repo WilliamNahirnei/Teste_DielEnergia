@@ -1,20 +1,41 @@
 <template>
   <div id="app">
-    <HomePage />
-    <TaskList />
+    <div>
+      <nav>
+        <b-navbar toggleable="lg" type="dark" variant="info">
+          <b-navbar-brand>
+            <router-link :to="{ name: 'Home'}">
+              Home
+            </router-link>
+          </b-navbar-brand>
+          <b-navbar-brand>
+            <router-link
+             :to="{ name: 'Task-List'}"
+             >
+              Tarefas
+            </router-link>
+          </b-navbar-brand>
+          <b-navbar-brand>
+            <router-link 
+              :to="{ name: 'New-Task'}"
+            >
+              Nova Tarefa
+            </router-link>
+          </b-navbar-brand>
+        </b-navbar>
+      </nav>
+      <div id="Content">
+        <router-view></router-view>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
 
-import TaskList from './components/task/TaskList.vue'
-import HomePage from './pages/task-pages/Home-Page.vue'
-
 export default {
   name: 'App',
   components: {
-    TaskList,
-    HomePage,
   }
 }
 </script>
@@ -26,6 +47,6 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
+  margin-top: 0px;
 }
 </style>

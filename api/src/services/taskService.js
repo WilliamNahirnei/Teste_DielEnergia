@@ -42,7 +42,7 @@ const destroy = async (request, response) => {
 
 const getAllTask = async (request, response) => {
     const taskResultsDatabase = await taskRepository.getAllTask()
-    const tasklist = []
+    let tasklist = []
     tasklist = taskResultsDatabase.map( (row)=>{
         return new Task(row.idTask, row.titleTask, row.descriptionTask, row.startDateTask, row.endDateTask, row.statusTask)
     })
