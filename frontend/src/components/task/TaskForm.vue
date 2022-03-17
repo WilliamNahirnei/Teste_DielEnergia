@@ -22,7 +22,7 @@
               <b-form-textarea 
                 id="descriptionTask" 
                 size="sm"
-                v-model="descriptionTask"  
+                :value="descriptionTask"  
               ></b-form-textarea>
             </b-col>
 
@@ -31,7 +31,7 @@
                 <label class="sr-only" for="startDateTask">Data Fim</label>
                 <b-form-datepicker 
                   id="startDateTask" 
-                  v-model="startDateTask" 
+                  :value="startDateTask" 
                   class="mb-2"
                   size="sm"
                 ></b-form-datepicker>
@@ -52,7 +52,7 @@
                 <label class="sr-only" for="endDateTask">Data Fim</label>
                 <b-form-datepicker 
                   id="endDateTask" 
-                  v-model="endDateTask" 
+                  :value="endDateTask" 
                   class="mb-2"
                   size="sm"
                 ></b-form-datepicker>
@@ -60,7 +60,7 @@
               <b-row>
                 <b-form-timepicker 
                   id="endHour" 
-                  v-model="endHourTask" 
+                  :value="endHourTask" 
                   locale="en" 
                   size="sm"
                 ></b-form-timepicker>
@@ -71,7 +71,13 @@
               v-if="idTask"
             >
               <label class="sr-only" for="statusTask">Status</label>
-              <b-form-select id="statusTask" v-model="selected" :options="statusTaskOptions" size="sm" class="mt-3"></b-form-select>
+              <b-form-select 
+                id="statusTask" 
+                :value="selectedStatusTask" 
+                :options="statusTaskOptions"
+                size="sm" 
+                class="mt-3"
+                ></b-form-select>
             </b-col>
               <b-col>
                 <b-button type="submit" variant="primary">Salvar</b-button>
@@ -84,12 +90,15 @@
 
 <script>
 
+import {
+  getTaskById,
+  updateTask
+} from '../../service/task-services/task-service'
+
 export default {
   name: 'TaskForm',
   props: {
-      idTask: null
-  },
-  components: {
+    idTask: null
   },
   data() {
     return{
@@ -100,32 +109,56 @@ export default {
       startHourTask: null,
       endDateTask: null,
       endHourTask: null,
-      statusTask: null,
+      selectedStatusTask: null,
       statusTaskOptions: [
-            { value: null, text: 'status' },
-            { value: 'a', text: 'This is First option' },
-            { value: 'b', text: 'Selected Option' },
-            { value: 'c', text: 'This is an option with object value' },
-            { value: 'd', text: 'This one is disabled'}
+            { value: 'SCHEDULED', text: 'SCHEDULED' },
+            { value: 'IN PROGRESS', text: 'IN PROGRESS' },
+            { value: 'FINISHED', text: 'FINISHED' },
+            { value: 'DELAYED', text: 'DELAYED'}
           ]
     }
   },
-  mouted: {
-
+  mounted: function() {
+    this.constructPage()
   },
   methods: {
     constructPage (){
       if (this.idTask) {
         this.formTitle = "Editar Tarefa"
+        this.getTaskById(this.idTask)
       }
+    },
+    async getTaskById(idTask){
+      const data = await getTaskById(idTask)
+      console.log(data)
+      const startDateHourTask = data.startDateTask.split("T")
+            const endDateHourTask = data.startDateTask.split("T")
+
+      this.titleTask = data.titleTask,
+      this.descriptionTask = data.descriptionTask
+      this.startDateTask = startDateHourTask[0]
+      this.startHourTask = startDateHourTask[1].split('.')[0]
+      this.endDateTask = endDateHourTask[0]
+      this.endHourTask = endDateHourTask[1].split('.')[0]
+      this.selectedStatusTask = data.status
+      
     },
     saveTask (event){
       event.preventDefault()
-      const taskData = this.prepareTaskData()
-      if(idTask){
-        updateTask(idTask, taskData)
+      if(this.idTask){
+        this.updateTask()
+      } else{
+        this.storeTask()
       }
-      storeTask(taskData)
+    },
+    storeTask() {
+
+    },
+    async updateTask() {
+      const taskData = await this.prepareTaskData()
+      console.log(taskData)
+      const response = await updateTask(this.idTask, taskData)
+      console.log(response)
     },
     prepareTaskData(){
       const taskData = {
@@ -133,7 +166,7 @@ export default {
         "descriptionTask": this.descriptionTask,
         "startDateTask": "".concat(this.startDateTask," ",this.startHourTask),
         "endDateTask": "".concat(this.endDateTask," ",this.endHourTask),
-        "StatusTask": this.statusTask
+        "StatusTask": this.selectedStatusTask
       }
       return taskData
     }

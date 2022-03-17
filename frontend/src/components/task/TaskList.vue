@@ -1,6 +1,8 @@
 <template>
   <div id="taskList">
-    <TaskForm />
+    <TaskForm
+      :idTask="12"
+    />
   </div>
 </template>
 
