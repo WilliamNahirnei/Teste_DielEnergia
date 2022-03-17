@@ -1,5 +1,6 @@
 <template>
   <div id="app">
+    <HomePage />
     <TaskList />
   </div>
 </template>
@@ -7,11 +8,13 @@
 <script>
 
 import TaskList from './components/task/TaskList.vue'
+import HomePage from './pages/task-pages/Home-Page.vue'
 
 export default {
   name: 'App',
   components: {
-    TaskList
+    TaskList,
+    HomePage,
   }
 }
 </script>
