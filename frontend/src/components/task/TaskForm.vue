@@ -153,16 +153,13 @@ export default {
     },
     async storeTask() {
       const taskData = await this.prepareTaskData()
-      console.log(taskData)
-      const response = await storeTask(taskData)
-      console.log(response)
-        this.$router.go('Task-List')
+      await storeTask(taskData)
+      this.$router.go('Task-List')
     },
     async updateTask() {
       const taskData = await this.prepareTaskData()
-      console.log(taskData)
-      const response = await updateTask(this.idTask, taskData)
-      console.log(response)
+      await updateTask(this.idTask, taskData)
+      this.$router.push({name:'Task-List'})
     },
     prepareTaskData(){
       const taskData = {

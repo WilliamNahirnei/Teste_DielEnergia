@@ -40,4 +40,9 @@ const destroyValidations = [
     .notEmpty().withMessage("O id da task é obrigatório"),
 ]
 
-module.exports = { saveValidations, updateValidations, destroyValidations }
+const getTaskByIdValidations = [
+    query('idTask')
+    .notEmpty().withMessage("O id da task é obrigatório"),
+]
+
+module.exports = { saveValidations, updateValidations, destroyValidations, getTaskByIdValidations }

@@ -73,7 +73,6 @@ export default {
   methods: {
     async getTaskList (){
       this.taskList =  await getAllTask()
-      console.log(this.taskList)
     },
   }
 }
