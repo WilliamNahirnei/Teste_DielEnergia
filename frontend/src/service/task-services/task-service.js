@@ -1,5 +1,5 @@
 
-import {get, put, post} from '../api-conector'
+import {get, put, post, destroy} from '../api-conector'
 
 const getTaskById = async (idTask) => {
     const route = "/task"
@@ -34,9 +34,15 @@ const updateTask = async (idTask, taskData) => {
     )
 }
 
+const deleteTask = async (idTask) => {
+    const route = `/task?idTask=${idTask}`
+    return await destroy(route)
+}
+
 export {
     getTaskById,
     getAllTask,
     storeTask,
-    updateTask
+    updateTask,
+    deleteTask
 }

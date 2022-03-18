@@ -12,7 +12,7 @@
                 id="titleTask"
                 class="mb-2 mr-sm-2 mb-sm-0"
                 placeholder="Titulo"
-                v-bind="titleTask"
+                v-model="titleTask"
                 size="sm"
               ></b-form-input>
             </b-col>
@@ -22,7 +22,7 @@
               <b-form-textarea 
                 id="descriptionTask" 
                 size="sm"
-                v-bind="descriptionTask"  
+                v-model="descriptionTask"  
               ></b-form-textarea>
             </b-col>
 
@@ -31,7 +31,7 @@
                 <label class="sr-only" for="startDateTask">Data Fim</label>
                 <b-form-datepicker 
                   id="startDateTask" 
-                  v-bind="startDateTask" 
+                  v-model="startDateTask" 
                   class="mb-2"
                   size="sm"
                 ></b-form-datepicker>
@@ -39,7 +39,7 @@
               <b-row>
                 <b-form-timepicker 
                   id="startHour" 
-                  v-bind="startHourTask" 
+                  v-model="startHourTask" 
                   locale="pt-BR" 
                   size="sm"
                 >
@@ -52,7 +52,7 @@
                 <label class="sr-only" for="endDateTask">Data Fim</label>
                 <b-form-datepicker 
                   id="endDateTask" 
-                  v-bind="endDateTask" 
+                  v-model="endDateTask" 
                   class="mb-2"
                   size="sm"
                 ></b-form-datepicker>
@@ -60,7 +60,7 @@
               <b-row>
                 <b-form-timepicker 
                   id="endHour" 
-                  v-bind="endHourTask" 
+                  v-model="endHourTask" 
                   locale="pt-BR" 
                   size="sm"
                 ></b-form-timepicker>
@@ -73,7 +73,7 @@
               <label class="sr-only" for="statusTask">Status</label>
               <b-form-select 
                 id="statusTask" 
-                v-bind="selectedStatusTask" 
+                v-model="selectedStatusTask" 
                 :options="statusTaskOptions"
                 size="sm" 
                 class="mt-3"
@@ -133,7 +133,7 @@ export default {
       const data = await getTaskById(idTask)
       console.log(data)
       const startDateHourTask = data.startDateTask.split("T")
-      const endDateHourTask = data.startDateTask.split("T")
+      const endDateHourTask = data.endDateTask.split("T")
 
       this.titleTask = data.titleTask,
       this.descriptionTask = data.descriptionTask
@@ -155,7 +155,7 @@ export default {
     async storeTask() {
       const taskData = await this.prepareTaskData()
       console.log(taskData)
-      const response = await storeTask(this.idTask, taskData)
+      const response = await storeTask(taskData)
       console.log(response)
       //router.push({ name: 'user', params: { username: 'erina' } })
     },

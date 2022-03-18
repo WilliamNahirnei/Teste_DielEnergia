@@ -2,8 +2,6 @@
   <div>
       <b-card
         v-if="task"
-        :header="formTitle"
-        header-tag="header"
       >
           <b-row>
             <b-col>
@@ -16,31 +14,54 @@
 
             <b-col>
               <b-row>
-                  <span> {{ task.startDateTask || "" }} </span>
+                  <span> {{ startDate || "" }} </span>
               </b-row>
               <b-row>
-                <span> {{ task.startHourTask || "" }} </span>
+                <span> {{ startHour || "" }} </span>
               </b-row>
             </b-col>
 
             <b-col>
               <b-row>
-                <span> {{ task.endDateTask || "" }} </span>
+                <span> {{ endDate || "" }} </span>
               </b-row>
               <b-row>
-                  <span> {{ task.endHourTask || "" }} </span>
+                  <span> {{ endHour || "" }} </span>
               </b-row>
             </b-col>
 
             <b-col>
-              <span> {{ task.selectedStatusTask || ""}} </span>
+              <span> {{ task.status || ""}} </span>
             </b-col>
+
+            <b-col>
+                <b-button 
+                    variant="outline-primary"
+                    :to="{ name: 'Edit-Task', params: { idTask: task.idTask }}"
+                >
+                Editar
+                </b-button>
+            </b-col>
+
+            <b-col>
+                <b-button 
+                    variant="outline-danger"
+                    @click="deleteTask"
+                >
+                Deletar
+                </b-button>
+            </b-col>
+
           </b-row>
       </b-card>
   </div>
 </template>
 
 <script>
+
+import {
+    deleteTask
+} from '../../service/task-services/task-service'
 
 export default {
   name: 'TaskCard',
@@ -49,11 +70,39 @@ export default {
   },
   data() {
     return{
+        startDate: null,
+        startHour: null,
+        endDate: null,
+        endHour: null
     }
   },
   mounted: function() {
+      this.formatStartDate()
+      this.formatEndDate()
   },
   methods: {
+    async formatStartDate(){
+        const dateTime = this.separateDataDetails(this.task.startDateTask)
+        this.startDate = dateTime.date
+        this.startHour = dateTime.time
+    },
+    formatEndDate(){
+        const dateTime = this.separateDataDetails(this.task.endDateTask)
+        this.endDate = dateTime.date
+        this.endHour = dateTime.time
+    },
+    separateDataDetails(dateTime){
+        const dateTimeArray = dateTime.split("T")
+        const timeArray = dateTimeArray[1].split('.')
+        return {
+            date: dateTimeArray[0],
+            time: timeArray[0]
+        }
+    },
+    async deleteTask(){
+        await deleteTask(this.task.idTask)
+        this.$router.go(this.$router.currentRoute)
+    }
 
   }
 }

@@ -69,6 +69,7 @@ module.exports = app => {
                 'data': result,
             }).send()
         } catch (error) {
+            console.log(error)
             return response.status(500).send(`INTERNAL SERVER ERROR: ${error}`)
         }
     }
