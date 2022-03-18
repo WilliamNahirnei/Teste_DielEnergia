@@ -4,23 +4,28 @@
       <nav>
         <b-navbar toggleable="lg" type="dark" variant="info">
           <b-navbar-brand>
-            <router-link :to="{ name: 'Home'}">
+            <b-nav-item 
+              active 
+              :to="{ name: 'Home'}" 
+            >
               Home
-            </router-link>
+            </b-nav-item>
           </b-navbar-brand>
           <b-navbar-brand>
-            <router-link
-             :to="{ name: 'Task-List'}"
-             >
+            <b-nav-item 
+              active 
+              :to="{ name: 'Task-List'}" 
+            >
               Tarefas
-            </router-link>
+            </b-nav-item>
           </b-navbar-brand>
           <b-navbar-brand>
-            <router-link 
-              :to="{ name: 'New-Task'}"
+            <b-nav-item 
+              active 
+              :to="{ name: 'New-Task'}" 
             >
               Nova Tarefa
-            </router-link>
+            </b-nav-item>
           </b-navbar-brand>
         </b-navbar>
       </nav>
