@@ -7,6 +7,9 @@ const knex = require('knex')({
       password : process.env.DB_PASSWORD,
       database : process.env.DB_DATABASE,
       timezone: process.env.DB_TIMEZONE
+    },
+    migrations: {
+      tableName: 'migrations'
     }
   })
 module.exports = knex
