@@ -25,7 +25,6 @@ const update = async (request, response) => {
         preparedData.newData.startDateTask,
         preparedData.newData.endDateTask,
         preparedData.newData.statusTask,
-        preparedData.newData.statusTask
     )
     return task
 }

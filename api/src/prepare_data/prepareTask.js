@@ -24,7 +24,7 @@ const prepareUpdate = async (request) => {
     if(requestBody.endDateTask)
         newData.endDateTask = requestBody.endDateTask
     if(requestBody.statusTask)
-        newData.statusTask = requestBody.titleTask
+        newData.statusTask = requestBody.statusTask
 
     return {
         idTask: queryParams.idTask,

@@ -131,7 +131,6 @@ export default {
     },
     async getTaskById(idTask){
       const data = await getTaskById(idTask)
-      console.log(data)
       const startDateHourTask = data.startDateTask.split("T")
       const endDateHourTask = data.endDateTask.split("T")
 
@@ -157,7 +156,7 @@ export default {
       console.log(taskData)
       const response = await storeTask(taskData)
       console.log(response)
-      //router.push({ name: 'user', params: { username: 'erina' } })
+        this.$router.go('Task-List')
     },
     async updateTask() {
       const taskData = await this.prepareTaskData()
@@ -171,7 +170,7 @@ export default {
         "descriptionTask": this.descriptionTask,
         "startDateTask": "".concat(this.startDateTask," ",this.startHourTask),
         "endDateTask": "".concat(this.endDateTask," ",this.endHourTask),
-        "StatusTask": this.selectedStatusTask
+        "statusTask": this.selectedStatusTask
       }
       return taskData
     }
